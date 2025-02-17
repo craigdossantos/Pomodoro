@@ -6,32 +6,33 @@ body {
     min-height: 100vh;
     margin: 0;
     background-color: #ffffff;
+    padding: 1rem;  /* Add padding to prevent edge-to-edge on mobile */
 }
 
 .container {
     text-align: center;
     background-color: rgba(255, 255, 255, 0.8);
-    padding: 3rem;
+    padding: 2rem;  /* Reduce padding on mobile */
     border-radius: 20px;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
     max-width: 600px;
-    width: 90%;
+    width: 100%;  /* Use full width on mobile */
 }
 
 h1 {
     font-family: "SF Pro Display", -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 2.2rem;
+    font-size: min(2.2rem, 8vw);  /* Responsive font size */
     font-weight: 500;
     color: #1d1d1f;
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
     letter-spacing: -0.5px;
 }
 
 .timer {
-    font-size: 5rem;
+    font-size: min(5rem, 15vw);  /* Responsive font size */
     font-weight: 300;
-    margin: 2rem 0;
+    margin: 1.5rem 0;  /* Reduced margin on mobile */
     color: #1d1d1f;
     font-feature-settings: "tnum";
     letter-spacing: -2px;
@@ -39,30 +40,76 @@ h1 {
 
 .controls {
     display: flex;
-    gap: 0.8rem;
+    gap: 0.5rem;  /* Reduced gap on mobile */
     justify-content: center;
     margin-bottom: 1rem;
-    padding: 0 1rem;
+    padding: 0 0.5rem;
+    flex-wrap: wrap;  /* Allow buttons to wrap on very small screens */
 }
 
 .controls button {
-    font-size: 1rem;
-    padding: 0.6rem 1rem;
+    font-size: 0.95rem;
+    padding: 0.6rem 0.8rem;
     cursor: pointer;
-    background-color: #007AFF; /* Apple's blue */
+    background-color: #007AFF;
     color: white;
     border: none;
     border-radius: 980px;
     font-weight: 500;
     transition: all 0.2s ease;
     flex: 1;
-    min-width: 120px;
+    min-width: min(110px, calc(50% - 1rem));  /* Responsive min-width */
     max-width: none;
+    /* Add touch-specific improvements */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
-.controls button:hover {
+/* Improve touch targets on mobile */
+.controls button:active {
+    transform: scale(0.96);
     background-color: #0066d6;
-    transform: scale(1.02);
+}
+
+/* Remove hover effects on touch devices */
+@media (hover: none) {
+    .controls button:hover {
+        transform: none;
+        background-color: #007AFF;
+    }
+    
+    #reset:hover {
+        background-color: #8E8E93;
+    }
+    
+    #toggle:hover {
+        background-color: #007AFF;
+    }
+    
+    #add-time:hover:not(:disabled) {
+        background-color: #007AFF;
+    }
+}
+
+/* Add specific mobile breakpoint adjustments */
+@media (max-width: 380px) {
+    .container {
+        padding: 1.5rem;
+    }
+    
+    .controls {
+        gap: 0.4rem;
+    }
+    
+    .controls button {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.9rem;
+    }
+    
+    .mode {
+        margin-top: 1.5rem;
+        font-size: 1rem;
+    }
 }
 
 #reset {
