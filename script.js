@@ -8,9 +8,11 @@ const startButton = document.getElementById('start');
 const resetButton = document.getElementById('reset');
 const toggleButton = document.getElementById('toggle');
 const modeText = document.getElementById('mode-text');
+const workTimeInput = document.getElementById('work-time');
+const breakTimeInput = document.getElementById('break-time');
 
-const WORK_TIME = 25 * 60; // 25 minutes in seconds
-const BREAK_TIME = 5 * 60; // 5 minutes in seconds
+let WORK_TIME = 25 * 60; // 25 minutes in seconds
+let BREAK_TIME = 5 * 60; // 5 minutes in seconds
 
 function updateDisplay(timeLeft) {
     const minutes = Math.floor(timeLeft / 60);
@@ -80,6 +82,33 @@ startButton.addEventListener('click', () => {
 });
 
 resetButton.addEventListener('click', resetTimer);
+
+// Add these event listeners after the other event listeners
+workTimeInput.addEventListener('change', () => {
+    const newTime = parseInt(workTimeInput.value);
+    if (newTime >= 1 && newTime <= 60) {
+        WORK_TIME = newTime * 60;
+        if (isWorkTime && !timerId) {
+            timeLeft = WORK_TIME;
+            updateDisplay(timeLeft);
+        }
+    } else {
+        workTimeInput.value = Math.min(Math.max(newTime, 1), 60);
+    }
+});
+
+breakTimeInput.addEventListener('change', () => {
+    const newTime = parseInt(breakTimeInput.value);
+    if (newTime >= 1 && newTime <= 60) {
+        BREAK_TIME = newTime * 60;
+        if (!isWorkTime && !timerId) {
+            timeLeft = BREAK_TIME;
+            updateDisplay(timeLeft);
+        }
+    } else {
+        breakTimeInput.value = Math.min(Math.max(newTime, 1), 60);
+    }
+});
 
 // Initialize the display
 timeLeft = WORK_TIME;
